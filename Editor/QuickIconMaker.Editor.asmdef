@@ -1,0 +1,10 @@
+{
+  "name": "QuickIconMaker.Editor",
+  "references": [
+    "UnityEditor",
+    "Unity.RenderPipelines.Universal.Runtime"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ]
+}
