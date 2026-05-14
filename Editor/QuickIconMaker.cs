@@ -34,13 +34,32 @@ public class QuickIconMaker : EditorWindow
     private string presetName = "Preset Name";
     private bool isSaving = false;
 	private static readonly string PresetPath = Path.Combine("Assets", "Settings", "QuickIconMaker");
-    
-	[MenuItem("Assets/Tools/Take Screenshot", false, 0)]
-    public static void OpenWindow()
-    {
-        var window = GetWindow<QuickIconMaker>("Quick Icon Maker");
-        window.targetPrefab = Selection.activeGameObject;
-    }
+	
+	[MenuItem("Assets/Take Screenshot", false, 2000)]
+	public static void OpenWindow()
+	{
+		if (Selection.activeObject is not GameObject prefab)
+			return;
+
+		var path = AssetDatabase.GetAssetPath(prefab);
+
+		if (string.IsNullOrEmpty(path) || !path.EndsWith(".prefab"))
+			return;
+
+		var window = GetWindow<QuickIconMaker>("Quick Icon Maker");
+		window.targetPrefab = prefab;
+	}
+
+	[MenuItem("Assets/Take Screenshot", true)]
+	private static bool ValidateOpenWindow()
+	{
+		if (Selection.activeObject is not GameObject prefab)
+			return false;
+
+		var path = AssetDatabase.GetAssetPath(prefab);
+
+		return !string.IsNullOrEmpty(path) && path.EndsWith(".prefab");
+	}
 
     private void OnEnable()
     {
